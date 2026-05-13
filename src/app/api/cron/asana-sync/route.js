@@ -8,7 +8,11 @@ import { saveTaskRecord } from "../../../../services/taskStore";
 import { sendSlackNotification } from "../../../../services/slack";
 import { normalizePriority } from "../../../../services/priority";
 
-const DEFAULT_SNAPSHOT_PATH = ".data/asana-task-snapshot.json";
+const DEFAULT_SNAPSHOT_PATH = path.join(
+  process.cwd(),
+  "tmp",
+  "asana-task-snapshot.json"
+);
 
 function getSnapshotPath() {
   const configuredPath = process.env.ASANA_SYNC_SNAPSHOT_PATH || DEFAULT_SNAPSHOT_PATH;
