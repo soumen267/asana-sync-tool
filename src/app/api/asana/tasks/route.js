@@ -27,16 +27,17 @@ function createTaskRecord(task, priority, aiSummary, source = "api") {
 
 export async function GET() {
   try {
-    const storedTasks = await getStoredTasks();
+    // const storedTasks = await getStoredTasks();
 
-    if (storedTasks.length > 0) {
-      return NextResponse.json({
-        success: true,
-        projectId: process.env.ASANA_PROJECT_ID || null,
-        source: "database",
-        tasks: storedTasks,
-      });
-    }
+    // if (storedTasks.length > 0) {
+    //   return NextResponse.json({
+    //     success: true,
+    //     projectId: process.env.ASANA_PROJECT_ID || null,
+    //     source: "database",
+    //     tasks: storedTasks,
+    //   });
+    // }
+    const storedTasks = [];
 
     const now = Date.now();
     const dayInMs = 24 * 60 * 60 * 1000;
@@ -67,8 +68,8 @@ export async function GET() {
         }
 
         const normalizedTask = {
-          name: task.name,
-          notes: resolvedNotes,
+          name: task?.name?.trim() || "Untitled Task",
+          notes: resolvedNotes || "No notes provided.",
         };
         const aiPriority = task.priority ? null : await detectPriority(normalizedTask);
         const priority = normalizePriority(task.priority || aiPriority);

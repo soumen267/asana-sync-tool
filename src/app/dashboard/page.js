@@ -334,16 +334,11 @@ export default function DashboardPage() {
       tasks
         .filter((task) => task.isRecentActivity)
         .map((task, index) => {
-          const rank = index + 1;
-          const numbered = `Task ${rank}`;
           const name = typeof task.name === "string" ? task.name.trim() : "";
-          const sameAsNumbered =
-            name.length > 0 && name.toLowerCase() === numbered.toLowerCase();
-          const headline = sameAsNumbered || !name ? numbered : `${numbered} · ${name}`;
-
+        
           return {
             gid: task.gid || `task-${index}`,
-            headline,
+            headline: name,
             ...parseAiSummary(task.aiSummary),
           };
         }),
@@ -411,8 +406,8 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <section className="grid gap-4 xl:grid-cols-[1.4fr_0.9fr]">
-        <div className="rounded-3xl border border-purple-200 bg-purple-50 p-5 shadow-sm">
+      <section className="grid items-start gap-4 xl:grid-cols-[1.4fr_0.9fr]">
+      <div className="self-start h-fit rounded-3xl border border-purple-200 bg-purple-50 p-5 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-semibold text-purple-700">
               AI Insights
@@ -424,7 +419,7 @@ export default function DashboardPage() {
           </div>
 
           {aiInsightItems.length > 0 ? (
-            <div className="max-h-[380px] space-y-4 overflow-y-auto pr-1">
+            <div className="space-y-4 overflow-y-auto pr-1">
               {aiInsightItems.map((item) => (
                 <article key={item.gid} className="rounded-2xl border border-purple-100 bg-white/60 p-3">
                   <p className="text-sm font-semibold text-slate-900">{item.headline}</p>
